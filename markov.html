@@ -26,7 +26,10 @@
     $('#m').val(story);
     */
 
+
+
     function choice(a, startWords) {
+        // Pick a random word from the list of available markov words. If none, use a Word that starts a sentence.
         console.log(a);
         if (!a){
             a = startWords;
@@ -35,22 +38,20 @@
         return a[i];
     };
 
+
     function getNextWord(thirds, finalArray, finalString , endWords, startWords ){
         var outputDiv = $("#output");
-        var isUpperCase = false;
         lastPick = choice(thirds[finalArray[finalArray.length-2] + " " + finalArray[finalArray.length-1]], startWords);
         finalArray.push(lastPick);
         finalString = finalString + " " + lastPick;
-        if (endWords.indexOf(lastPick) > -1)
-        {
-            var sentenceFound = 1;
-        }
         outputDiv.html(finalString);
         return finalString;
     }
 
 
+
     function getM(){
+        // Split entire text into groups of three. Find words that start and end chains.
         var fullText = $("#m").val().replace(/\s\s+/g, ' ');;
         var words = fullText.split(' ');
         var startWords = [words[0] + " " + words[1]];
@@ -73,6 +74,8 @@
                 thirds[words[i] + " " + words[i+1]] = [words[i+2]];
             }
         }
+
+        // Add one word to the chain to get it started
         var lastPick = choice(startWords);
         finalArray = lastPick.split(' ');
         finalString = finalArray.join(' ');    
@@ -85,6 +88,7 @@
         return finalString;
     }
 
+    // Start on click
     $("#b").click(function(){
         getM();
     })
